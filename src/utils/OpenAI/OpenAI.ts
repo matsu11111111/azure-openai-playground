@@ -68,12 +68,12 @@ export const getOpenAICompletion = async (
 
           try {
             const json = JSON.parse(data);
-            const finishReason = json.choices[0].finish_reason || "";
+            const finishReason = json.choices[0]?.finish_reason || "";
             if (finishReason === "stop") {
-              controller.close();
+              // controller.close();
               return;
             }
-            const text = json.choices[0].delta?.content || "";
+            const text = json.choices[0]?.delta?.content || "";
             if (counter < 2 && (text.match(/\n/) || []).length) {
               return;
             }
@@ -94,7 +94,7 @@ export const getOpenAICompletion = async (
       } else {
         try {
           const jsonData = (await response.json()) as any;
-          const text = jsonData.choices[0].message?.content;
+          const text = jsonData.choices[0]?.message?.content;
           const usage = jsonData.usage;
           const systemMessage =
             "[total tokens:" + String(usage.total_tokens) + "]";
