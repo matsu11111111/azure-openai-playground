@@ -283,7 +283,7 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
         // FIXME: try to get easy auth token every time
         const accessToken = await getEasyAuthToken();
         const decoder = new TextDecoder();
-        const { body, ok } = await fetch("/api/completion", {
+        const { body, ok, status } = await fetch("/api/completion", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -299,6 +299,18 @@ export default function OpenAIProvider({ children }: PropsWithChildren) {
             ),
           }),
         });
+
+        // FIXME: handle errors with user friendly messages based on status code
+        // https://developer.mozilla.org/ja/docs/Web/HTTP/Status
+        if (status === 401) {
+          throw new Error(`Unauthorized with status ${status}`)
+        }
+        if (status === 403) {
+          throw new Error(`Forbidden with status ${status}`)
+        }
+        if (status === 500) {
+          throw new Error(`Internal server error with status ${status}`)
+        }
 
         if (!body) return;
         const reader = body.getReader();
