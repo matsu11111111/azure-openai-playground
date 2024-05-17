@@ -26,7 +26,8 @@ export type OpenAIRequest = {
 
 const getUrl = () => {
   if (process.env.AZURE_OPENAI_API_URL == undefined) {
-    return `https://${process.env.AZURE_OPENAI_NAME}.openai.azure.com/openai/deployments/${process.env.AZURE_OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=${process.env.AZURE_OPENAI_API_VERSION}`;
+    //return `https://${process.env.AZURE_OPENAI_NAME}.openai.azure.com/openai/deployments/${process.env.AZURE_OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=${process.env.AZURE_OPENAI_API_VERSION}`;
+      return `https://${process.env.AZURE_OPENAI_NAME}.azure-api.net/openai/deployments/${process.env.AZURE_OPENAI_DEPLOYMENT_NAME}/chat/completions?api-version=${process.env.AZURE_OPENAI_API_VERSION}`;
   }
   return process.env.AZURE_OPENAI_API_URL || "";
 };
